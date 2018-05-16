@@ -6,6 +6,10 @@ if test ! -e /inited; then
     service sshd start
     service sshd stop
     usermod -u $USER_UID user
+    if [ "$PUBLIC_AUTH_KEY" != "" ]; then
+        mkdir -p /root/.ssh
+        echo $PUBLIC_AUTH_KEY >> /root/.ssh/authorized_keys2
+    fi
     touch /inited
 fi
 
