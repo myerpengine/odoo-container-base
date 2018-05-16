@@ -2,14 +2,15 @@
 
 if test ! -e /inited; then
     echo "Initializing container"
-    echo user:`pwgen -cnsN 1 12` | chpasswd
-    service sshd start
-    service sshd stop
-    usermod -u $USER_UID user
+    echo root:`pwgen -cnsN 1 12` | chpasswd
     if [ "$PUBLIC_AUTH_KEY" != "" ]; then
         mkdir -p /root/.ssh
         echo $PUBLIC_AUTH_KEY >> /root/.ssh/authorized_keys2
     fi
+    echo user:`pwgen -cnsN 1 12` | chpasswd
+    usermod -u $USER_UID user
+    service sshd start
+    service sshd stop
     touch /inited
 fi
 
